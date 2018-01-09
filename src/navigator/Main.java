@@ -7,9 +7,23 @@ public class Main {
         MachuPickchuNavigator nav = new MachuPickchuNavigator();
 
         char[][] map = {
-                {'@', '.', '.'},
-                {'#', '.', '#'},
-                {'X', '.', '.'}
+//                {'@', '.', '.'},
+//                {'#', '.', '#'},
+//                {'X', '.', '.'}
+
+//                {'.', '.', '.', '@', '.'},
+//                {'.', '#', '#', '#', '#'},
+//                {'.', '.', '.', '.', '.'},
+//                {'#', '#', '#', '#', '.'},
+//                {'.', 'X', '.', '.', '.'}
+
+                {'.', '.', '.', '.', 'X'},
+                {'#', '#', '.', '#', '#'},
+                {'.', '.', '.', '.', '.'},
+                {'.', '#', '#', '#', '.'},
+                {'@', '#', 'X', '.', '.'}
+
+
         };
 
         char[][] route = nav.searchRoute(map);
@@ -18,6 +32,11 @@ public class Main {
     }
 
     public static void printArrayInChar (char[][] array) {
+        if (array == null)
+        {
+            System.out.println(array);
+            return;
+        }
         for (int i = 0; i < array.length; ++i) {
             for (int j = 0; j < array[i].length; ++j) {
                 System.out.print(array[i][j]);

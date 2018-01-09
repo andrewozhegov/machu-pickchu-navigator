@@ -38,7 +38,9 @@ public class MachuPickchuNavigator implements Navigator
 
         for (int d = 0; ; ++d) // d - количество шагов, на которые распространилась волна
         {
-            for(int i = 0; i < queue.size(); ++i)
+            if(queue.isEmpty()) return null; // случай, когда волна зашла в тупик
+
+            for (int i = 0; i < queue.size(); ++i)
             {
                 Pair<Integer,Integer> point = queue.get(i);
 
@@ -143,7 +145,7 @@ public class MachuPickchuNavigator implements Navigator
                         out[i][j] = finishCell;
                         break;
                     }
-                    default: return null;
+                    default: return null; // на карте находятся посторонние символы
                 }
             }
         }
@@ -162,20 +164,18 @@ public class MachuPickchuNavigator implements Navigator
     {
         if (i < 0 || j < 0 || i > map.length -1 || j > map[0].length - 1) return false;
 
+        boolean result = false;
+
         switch (map[i][j])
         {
+            case finishCell: {
+                result = true;
+            }
             case roadCell: {
                 map[i][j] = d + 1;
                 temp.add(new Pair<>(i, j));
-                return false;
             }
-            case finishCell: {
-                map[i][j] = d + 1;
-                temp.add(new Pair<>(i, j));
-                return true;
-            }
-
-            default: return false;
         }
+        return result;
     }
 }
