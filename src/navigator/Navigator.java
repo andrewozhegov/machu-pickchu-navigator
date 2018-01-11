@@ -10,5 +10,5 @@ public interface Navigator
      * @param map карта города
      * @return карта города с построенным маршрутом
      */
-    char[][] searchRoute(char[][] map);
+    char[][] searchRoute(char[][] map) throws InterruptedException;
 }

@@ -12,10 +12,11 @@ public class MachuPickchuNavigator implements Navigator
 
     private char[][] mapInChar;
 
-    private ArrayList<Pair<Integer, Integer>> queue; // позиции граничных элементов волны для обхода
-    private ArrayList<Pair<Integer, Integer>> temp; // позиции новых граничных элементов волны
+    private ArrayList <Pair <Integer, Integer>> queue; // позиции граничных элементов волны для обхода
+    private ArrayList <Pair <Integer, Integer>> temp; // позиции новых граничных элементов волны
 
-    public MachuPickchuNavigator() {
+    public MachuPickchuNavigator()
+    {
         queue = new ArrayList<>();
         temp = new ArrayList<>();
     }
@@ -36,6 +37,9 @@ public class MachuPickchuNavigator implements Navigator
 
         boolean success = false;
 
+        final int di[] = {0, 1, 0, -1}; // массивы смещений по осям для обхода окресности фон Нймана
+        final int dj[] = {-1, 0, 1, 0};
+
         for (int d = 0; ; ++d) // d - количество шагов, на которые распространилась волна
         {
             if(queue.isEmpty()) return null; // случай, когда волна зашла в тупик
@@ -44,32 +48,16 @@ public class MachuPickchuNavigator implements Navigator
             {
                 Pair<Integer,Integer> point = queue.get(i);
 
-                if (determineAroundPositions(mapInInts, point.getKey(), point.getValue() - 1, d)) // верхняя точка окресности
+                for (int k = 0; k < 4; ++k) // обход окресности фон Неймана при помощи массивов смещений по осям
                 {
-                    success = true;
-                    break;
-                }
-
-                if (determineAroundPositions(mapInInts, point.getKey() + 1, point.getValue(), d)) // правая точка окресности
-                {
-                    success = true;
-                    break;
-                }
-
-                if (determineAroundPositions(mapInInts, point.getKey(), point.getValue() + 1, d)) // нижняя точка окресности
-                {
-                    success = true;
-                    break;
-                }
-
-                if (determineAroundPositions(mapInInts, point.getKey() - 1, point.getValue(), d)) // левая точка окресности
-                {
-                    success = true;
-                    break;
+                    if (determineAroundPositions(mapInInts, point.getKey() + di[k], point.getValue() + dj[k], d)) // верхняя точка окресности
+                    {
+                        success = true;
+                        break;
+                    }
                 }
             }
-
-            if (success) break; //
+            if (success) break;
 
             // Формирование новой очереди
             queue.clear();
@@ -78,6 +66,7 @@ public class MachuPickchuNavigator implements Navigator
         }
 
         Pair<Integer,Integer> finish = temp.get(temp.size() - 1);
+
         int i = finish.getKey();
         int j = finish.getValue();
 
@@ -95,7 +84,7 @@ public class MachuPickchuNavigator implements Navigator
                     continue;
                 }
 
-            if (i < map.length -1)
+            if (i < map.length - 1)
                 if (mapInInts[i + 1][j] == d) {
                     mapInChar[++i][j] = '+';
                     continue;
@@ -107,11 +96,8 @@ public class MachuPickchuNavigator implements Navigator
                     continue;
                 }
         }
-
         return mapInChar;
     }
-
-
 
     /**
      * Преобразование символьной карты в целочисленую
